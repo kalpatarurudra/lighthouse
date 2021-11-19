@@ -119,7 +119,6 @@ const defaultSettings = {
   onlyAudits: null,
   onlyCategories: null,
   skipAudits: null,
-  skipAboutBlank: false,
 };
 
 /** @type {LH.Config.Pass} */

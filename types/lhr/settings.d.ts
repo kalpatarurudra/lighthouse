@@ -97,8 +97,6 @@ export type ScreenEmulationSettings = {
   precomputedLanternData?: PrecomputedLanternData | null;
   /** The budget.json object for LightWallet. */
   budgets?: Array<Budget> | null;
-  /** If true, the run should skip about:blank jumps before a navigation. */
-  skipAboutBlank?: boolean;
 }
 
 export interface ConfigSettings extends Required<SharedFlagsSettings> {

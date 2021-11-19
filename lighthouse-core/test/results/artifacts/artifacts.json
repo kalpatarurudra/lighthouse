@@ -164,8 +164,7 @@
     "precomputedLanternData": null,
     "onlyAudits": null,
     "onlyCategories": null,
-    "skipAudits": null,
-    "skipAboutBlank": false
+    "skipAudits": null
   },
   "URL": {
     "requestedUrl": "http://localhost:10200/dobetterweb/dbw_tester.html",

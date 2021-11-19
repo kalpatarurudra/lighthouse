@@ -62,8 +62,8 @@ class UserFlow {
     const configContext = {...options.configContext};
     const settingsOverrides = {...configContext.settingsOverrides};
 
-    if (settingsOverrides.skipAboutBlank === undefined) {
-      settingsOverrides.skipAboutBlank = true;
+    if (configContext.skipAboutBlank === undefined) {
+      configContext.skipAboutBlank = true;
     }
 
     // On repeat navigations, we want to disable storage reset by default (i.e. it's not a cold load).
