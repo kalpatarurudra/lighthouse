@@ -5896,8 +5896,7 @@
     "precomputedLanternData": null,
     "onlyAudits": null,
     "onlyCategories": null,
-    "skipAudits": null,
-    "skipAboutBlank": false
+    "skipAudits": null
   },
   "categories": {
     "performance": {
