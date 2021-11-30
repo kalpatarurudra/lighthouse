@@ -37,18 +37,18 @@ const NetworkRecords = require('../../computed/network-records.js');
  * @property {string} requestedUrl
  * @property {LH.FRBaseArtifacts} baseArtifacts
  * @property {Map<string, LH.ArbitraryEqualityMap>} computedCache
- * @property {InternalOptions} options
+ * @property {InternalOptions} [options]
  */
 
 /** @typedef {Omit<Parameters<typeof collectPhaseArtifacts>[0], 'phase'>} PhaseState */
 
 /**
- * @param {{driver: Driver, config: LH.Config.FRConfig, requestedUrl: string, options: InternalOptions}} args
+ * @param {{driver: Driver, config: LH.Config.FRConfig, requestedUrl: string, options?: InternalOptions}} args
  * @return {Promise<{baseArtifacts: LH.FRBaseArtifacts}>}
  */
 async function _setup({driver, config, requestedUrl, options}) {
   await driver.connect();
-  if (!options.skipAboutBlank) {
+  if (!options?.skipAboutBlank) {
     await gotoURL(driver, defaultNavigationConfig.blankPage, {waitUntil: ['navigated']});
   }
 
@@ -65,7 +65,7 @@ async function _setup({driver, config, requestedUrl, options}) {
  * @return {Promise<{warnings: Array<LH.IcuMessage>}>}
  */
 async function _setupNavigation({requestedUrl, driver, navigation, config, options}) {
-  if (!options.skipAboutBlank) {
+  if (!options?.skipAboutBlank) {
     await gotoURL(driver, navigation.blankPage, {...navigation, waitUntil: ['navigated']});
   }
   const {warnings} = await prepare.prepareTargetForIndividualNavigation(
@@ -223,7 +223,7 @@ async function _navigation(navigationContext) {
 }
 
 /**
- * @param {{driver: Driver, config: LH.Config.FRConfig, requestedUrl: string; baseArtifacts: LH.FRBaseArtifacts, computedCache: NavigationContext['computedCache'], options: InternalOptions}} args
+ * @param {{driver: Driver, config: LH.Config.FRConfig, requestedUrl: string; baseArtifacts: LH.FRBaseArtifacts, computedCache: NavigationContext['computedCache'], options?: InternalOptions}} args
  * @return {Promise<{artifacts: Partial<LH.FRArtifacts & LH.FRBaseArtifacts>}>}
  */
 async function _navigations({driver, config, requestedUrl, baseArtifacts, computedCache, options}) {
