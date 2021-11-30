@@ -147,6 +147,9 @@ class PageDependencyGraph {
       const directInitiatorRequest = node.record.initiatorRequest || rootNode.record;
       const directInitiatorNode =
         networkNodeOutput.idToNodeMap.get(directInitiatorRequest.requestId) || rootNode;
+      const canDependOnInitiator =
+        !directInitiatorNode.isDependentOn(node) &&
+        node.canDependOn(directInitiatorNode);
       const initiators = PageDependencyGraph.getNetworkInitiators(node.record);
       if (initiators.length) {
         initiators.forEach(initiator => {
@@ -156,16 +159,18 @@ class PageDependencyGraph {
               parentCandidates[0].startTime <= node.startTime &&
               !parentCandidates[0].isDependentOn(node)) {
             node.addDependency(parentCandidates[0]);
-          } else if (!directInitiatorNode.isDependentOn(node)) {
+          } else if (canDependOnInitiator) {
             directInitiatorNode.addDependent(node);
           }
         });
-      } else if (!directInitiatorNode.isDependentOn(node)) {
+      } else if (canDependOnInitiator) {
         directInitiatorNode.addDependent(node);
       }
 
       // Make sure the nodes are attached to the graph if the initiator information was invalid.
-      if (node !== rootNode && node.getDependencies().length === 0) node.addDependency(rootNode);
+      if (node !== rootNode && node.getDependencies().length === 0 && node.canDependOn(rootNode)) {
+        node.addDependency(rootNode);
+      }
 
       if (!node.record.redirects) return;
 
@@ -321,7 +326,8 @@ class PageDependencyGraph {
         }
       }
 
-      if (node.getNumberOfDependencies() === 0) {
+      // Nodes starting before the root node cannot depend on it.
+      if (node.getNumberOfDependencies() === 0 && node.canDependOn(rootNode)) {
         node.addDependency(rootNode);
       }
     }
