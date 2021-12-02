@@ -52,8 +52,8 @@ function computeSelectorSpecificity(selector) {
   let numTypes = 0;
 
   for (const token of tokens) {
-    const ids = token.match(/\b#[a-z0-9]+/g) || [];
-    const classes = token.match(/\b\.[a-z0-9]+/g) || [];
+    const ids = token.match(/(\b|^)#[a-z0-9_-]+/g) || [];
+    const classes = token.match(/(\b|^)\.[a-z0-9_-]+/g) || [];
     const types = token.match(/^[a-z]+/) ? [1] : [];
     numIDs += ids.length;
     numClasses += classes.length;

@@ -187,11 +187,14 @@ describe('Font size gatherer', () => {
 
     it('should handle class selectors', () => {
       expect(compute('h1.foo')).toEqual(11);
+      expect(compute('.foo')).toEqual(10);
       expect(compute('h1 > p.other.yeah > span')).toEqual(23);
     });
 
     it('should handle ID selectors', () => {
       expect(compute('h1#awesome.foo')).toEqual(111);
+      expect(compute('#awesome.foo')).toEqual(110);
+      expect(compute('#awesome')).toEqual(100);
       expect(compute('h1 > p.other > span#the-text')).toEqual(113);
     });
 
