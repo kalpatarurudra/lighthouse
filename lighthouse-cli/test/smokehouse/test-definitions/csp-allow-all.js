@@ -5,9 +5,30 @@
  */
 'use strict';
 
-/** @type {LH.Config.Json} */
-const config = {
-  extends: 'lighthouse:default',
+/**
+ * @type {Smokehouse.ExpectedRunnerResult}
+ * Expectations of CSP results with a default Lighthouse run.
+ */
+const expectations = {
+  artifacts: {
+    RobotsTxt: {
+      status: 200,
+    },
+    InspectorIssues: {contentSecurityPolicy: []},
+    SourceMaps: [{
+      sourceMapUrl: 'http://localhost:10200/source-map/script.js.map',
+      map: {},
+      errorMessage: undefined,
+    }],
+  },
+  lhr: {
+    requestedUrl: 'http://localhost:10200/csp.html',
+    finalUrl: 'http://localhost:10200/csp.html',
+    audits: {},
+  },
 };
 
-export default config;
+export default {
+  id: 'csp-allow-all',
+  expectations,
+};
