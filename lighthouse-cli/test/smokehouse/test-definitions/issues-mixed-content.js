@@ -37,4 +37,7 @@ const expectations = {
   },
 };
 
-export {expectations};
+export default {
+  id: 'issues-mixed-content',
+  expectations,
+};
