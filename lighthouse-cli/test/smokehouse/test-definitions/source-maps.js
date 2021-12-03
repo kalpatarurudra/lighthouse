@@ -6,7 +6,16 @@
 'use strict';
 
 import fs from 'fs';
-import {LH_ROOT} from '../../../../../root.js';
+
+import {LH_ROOT} from '../../../../root.js';
+
+/** @type {LH.Config.Json} */
+const config = {
+  extends: 'lighthouse:default',
+  settings: {
+    onlyAudits: ['unused-javascript'],
+  },
+};
 
 const mapJson =
   fs.readFileSync(`${LH_ROOT}/lighthouse-cli/test/fixtures/source-map/script.js.map`, 'utf-8');
@@ -41,4 +50,8 @@ const expectations = {
   },
 };
 
-export {expectations};
+export default {
+  id: 'source-maps',
+  expectations,
+  config,
+};
