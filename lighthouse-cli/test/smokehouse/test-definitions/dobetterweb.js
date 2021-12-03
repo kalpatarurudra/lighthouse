@@ -5,6 +5,15 @@
  */
 'use strict';
 
+/** @type {LH.Config.Json} */
+const config = {
+  extends: 'lighthouse:default',
+  audits: [
+    // Test the `ignoredPatterns` audit option.
+    {path: 'errors-in-console', options: {ignoredPatterns: ['An ignored error']}},
+  ],
+};
+
 /**
  * @type {Smokehouse.ExpectedRunnerResult}
  * Expected Lighthouse audit values for Do Better Web tests.
@@ -448,4 +457,9 @@ const expectations = {
   },
 };
 
-export {expectations};
+export default {
+  id: 'dbw',
+  expectations,
+  config,
+  runSerially: true, // Need access to network request assertions.
+};
