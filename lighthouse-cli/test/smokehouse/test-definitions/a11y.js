@@ -5,7 +5,18 @@
  */
 'use strict';
 
-/* eslint-disable max-len */
+/**
+ * Config for running PWA smokehouse audits for axe.
+ * @type {LH.Config.Json}
+ */
+const config = {
+  extends: 'lighthouse:default',
+  settings: {
+    onlyCategories: [
+      'accessibility',
+    ],
+  },
+};
 
 /**
  * @type {Smokehouse.ExpectedRunnerResult}
@@ -744,4 +755,9 @@ const expectations = {
   },
 };
 
-export {expectations};
+/** @type {Smokehouse.TestDfn} */
+export default {
+  id: 'a11y',
+  expectations,
+  config,
+};
