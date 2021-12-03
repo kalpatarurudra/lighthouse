@@ -5,17 +5,23 @@
  */
 'use strict';
 
-/** @fileoverview Expected Lighthouse audit values for various sites with stable(ish) PWA results. */
-
 import pwaDetailsExpectations from './pwa-expectations-details.js';
 
 const pwaRocksExpectations = {...pwaDetailsExpectations, hasIconsAtLeast512px: false};
+
+/** @type {LH.Config.Json} */
+const config = {
+  extends: 'lighthouse:default',
+  settings: {
+    onlyCategories: ['pwa'],
+  },
+};
 
 /**
  * @type {Smokehouse.ExpectedRunnerResult}
  * Expected Lighthouse results for (the archived) pwa.rocks.
  */
-const pwarocks = {
+const expectations = {
   lhr: {
     // Archived version of https://github.com/pwarocks/pwa.rocks
     // Fork is here: https://github.com/connorjclark/pwa.rocks
@@ -64,6 +70,8 @@ const pwarocks = {
   },
 };
 
-export {
-  pwarocks,
+export default {
+  id: 'pwa-rocks',
+  expectations,
+  config,
 };

@@ -5,15 +5,21 @@
  */
 'use strict';
 
-/** @fileoverview Expected Lighthouse audit values for various sites with stable(ish) PWA results. */
-
 import pwaDetailsExpectations from './pwa-expectations-details.js';
+
+/** @type {LH.Config.Json} */
+const config = {
+  extends: 'lighthouse:default',
+  settings: {
+    onlyCategories: ['pwa'],
+  },
+};
 
 /**
  * @type {Smokehouse.ExpectedRunnerResult}
  * Expected Lighthouse results for airhorner.com.
  */
-const airhorner = {
+const expectations = {
   lhr: {
     requestedUrl: 'https://airhorner.com',
     finalUrl: 'https://airhorner.com/',
@@ -60,56 +66,8 @@ const airhorner = {
   },
 };
 
-/**
- * @type {Smokehouse.ExpectedRunnerResult}
- * Expected Lighthouse results for chromestatus.com.
- */
-const chromestatus = {
-  lhr: {
-    requestedUrl: 'https://www.chromestatus.com/features',
-    finalUrl: 'https://www.chromestatus.com/features',
-    audits: {
-      'service-worker': {
-        score: 0,
-      },
-      'viewport': {
-        score: 1,
-      },
-      'installable-manifest': {
-        score: 0,
-        details: {items: [{reason: 'No manifest was fetched'}]},
-      },
-      'splash-screen': {
-        score: 0,
-      },
-      'themed-omnibox': {
-        score: 0,
-      },
-      'content-width': {
-        score: 1,
-      },
-      'apple-touch-icon': {
-        score: 1,
-      },
-
-      // "manual" audits. Just verify in the results.
-      'pwa-cross-browser': {
-        score: null,
-        scoreDisplayMode: 'manual',
-      },
-      'pwa-page-transitions': {
-        score: null,
-        scoreDisplayMode: 'manual',
-      },
-      'pwa-each-page-has-url': {
-        score: null,
-        scoreDisplayMode: 'manual',
-      },
-    },
-  },
-};
-
-export {
-  airhorner,
-  chromestatus,
+export default {
+  id: 'pwa-airhorner',
+  expectations,
+  config,
 };
