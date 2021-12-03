@@ -5,10 +5,6 @@
  */
 'use strict';
 
-/**
- * Config file for running PWA smokehouse audits.
- */
-
 /** @type {LH.Config.Json} */
 const config = {
   extends: 'lighthouse:default',
@@ -24,4 +20,25 @@ const config = {
   },
 };
 
-export default config;
+/**
+ * @type {Smokehouse.ExpectedRunnerResult}
+ * Expected Lighthouse audit values for a site with a client-side redirect (2s + 5s), no paint.
+ */
+const expectations = {
+  // TODO: Assert performance metrics on client-side redirects, see https://github.com/GoogleChrome/lighthouse/pull/10325
+  lhr: {
+    requestedUrl: `http://localhost:10200/js-redirect.html?delay=2000&jsDelay=5000&jsRedirect=%2Fredirects-final.html`,
+    finalUrl: 'http://localhost:10200/redirects-final.html',
+    audits: {
+    },
+    runWarnings: [
+      /The page may not be loading as expected because your test URL \(.*js-redirect.html.*\) was redirected to .*redirects-final.html. Try testing the second URL directly./,
+    ],
+  },
+};
+
+export default {
+  id: 'redirects-single-client',
+  expectations,
+  config,
+};
