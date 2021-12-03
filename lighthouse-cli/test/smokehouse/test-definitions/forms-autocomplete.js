@@ -5,6 +5,21 @@
  */
 'use strict';
 
+import experimentalConfig from '../../../../lighthouse-core/config/experimental-config.js';
+
+/**
+ * @type {LH.Config.Json}
+ * Config file for running form gatherer  tests.
+ */
+const config = {
+  ...experimentalConfig,
+  settings: {
+    onlyAudits: [
+      'autocomplete',
+    ],
+  },
+};
+
 /**
  * @type {Smokehouse.ExpectedRunnerResult}
  * Expected Lighthouse artifacts from Form gatherer and autocomplete audit.
@@ -580,4 +595,8 @@ const expectations = {
   },
 };
 
-export {expectations};
+export default {
+  id: 'forms-autocomplete',
+  expectations,
+  config,
+};
