@@ -6,10 +6,48 @@
 'use strict';
 
 /**
+ * @type {LH.Config.Json}
+ * Config file for running byte efficiency smokehouse audits.
+ */
+const config = {
+  extends: 'lighthouse:default',
+  settings: {
+    onlyAudits: [
+      'accesskeys', // run axe on the page since we've had problems with interactions
+      'network-requests',
+      'offscreen-images',
+      'uses-http2',
+      'modern-image-formats',
+      'uses-optimized-images',
+      'uses-text-compression',
+      'uses-responsive-images',
+      'unminified-css',
+      'unminified-javascript',
+      'unused-css-rules',
+      'unused-javascript',
+      // image-size-responsive is not a byte-efficiency audit but a counterbalance to the byte-efficiency audits
+      // that makes sense to test together.
+      'image-size-responsive',
+      // unsized-images is not a byte-efficiency audit but can easily leverage the variety of images present in
+      // byte-efficiency tests & thus makes sense to test together.
+      'unsized-images',
+    ],
+    throttlingMethod: 'devtools',
+  },
+  audits: [
+    'unsized-images',
+    {path: 'byte-efficiency/unused-javascript', options: {
+      // Lower the threshold so we don't need huge resources to make a test.
+      unusedThreshold: 2000,
+    }},
+  ],
+};
+
+/**
  * @type {Smokehouse.ExpectedRunnerResult}
  * Expected Lighthouse results for byte efficiency audits.
  */
-const efficiency = {
+const expectations = {
   artifacts: {
     ScriptElements: [
       {
@@ -283,46 +321,9 @@ const efficiency = {
   },
 };
 
-/**
- * @type {Smokehouse.ExpectedRunnerResult}
- * Expected Lighthouse results testing gzipped requests.
- */
-const gzip = {
-  lhr: {
-    requestedUrl: 'http://localhost:10200/byte-efficiency/gzip.html',
-    finalUrl: 'http://localhost:10200/byte-efficiency/gzip.html',
-    audits: {
-      'network-requests': {
-        details: {
-          items: [
-            {
-              url: 'http://localhost:10200/byte-efficiency/gzip.html',
-              finished: true,
-            },
-            {
-              url: 'http://localhost:10200/byte-efficiency/script.js?gzip=1',
-              transferSize: '1200 +/- 150',
-              resourceSize: '53000 +/- 1000',
-              finished: true,
-            },
-            {
-              url: 'http://localhost:10200/byte-efficiency/script.js',
-              transferSize: '53200 +/- 1000',
-              resourceSize: '53000 +/- 1000',
-              finished: true,
-            },
-            {
-              url: 'http://localhost:10200/favicon.ico',
-              finished: true,
-            },
-          ],
-        },
-      },
-    },
-  },
-};
-
-export {
-  efficiency,
-  gzip,
+export default {
+  id: 'byte-efficiency',
+  expectations,
+  config,
+  runSerially: true,
 };
