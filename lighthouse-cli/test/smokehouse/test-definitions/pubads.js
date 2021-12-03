@@ -11,4 +11,24 @@ const config = {
   plugins: ['lighthouse-plugin-publisher-ads'],
 };
 
-export default config;
+/**
+  * @type {Smokehouse.ExpectedRunnerResult}
+  */
+const expectations = {
+  lhr: {
+    requestedUrl: 'http://localhost:10200/online-only.html',
+    finalUrl: 'http://localhost:10200/online-only.html',
+    // We should receive warnings about no ads being on the page.
+    runWarnings: {length: '>0'},
+    audits: {
+      // We just want to ensure the plugin had a chance to run without error.
+      'ad-render-blocking-resources': {scoreDisplayMode: 'notApplicable'},
+    },
+  },
+};
+
+export default {
+  id: 'pubads',
+  expectations,
+  config,
+};
