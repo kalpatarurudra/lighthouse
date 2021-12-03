@@ -5,10 +5,6 @@
  */
 'use strict';
 
-/**
- * Config file for running byte efficiency smokehouse audits.
- */
-
 /** @type {LH.Config.Json} */
 const config = {
   extends: 'lighthouse:default',
@@ -25,4 +21,25 @@ const config = {
   },
 };
 
-export default config;
+/**
+ * @type {Smokehouse.ExpectedRunnerResult}
+ */
+const expectations = {
+  lhr: {
+    requestedUrl: 'http://localhost:10200/ric-shim.html?short',
+    finalUrl: 'http://localhost:10200/ric-shim.html?short',
+    audits: {
+      'total-blocking-time': {
+        // With the requestIdleCallback shim in place 1ms tasks should not block at all and should max add up to
+        // 12.5 ms each, which would result in 50ms under a 4x simulated throttling multiplier and therefore in 0 tbt
+        numericValue: '<=100',
+      },
+    },
+  },
+};
+
+export default {
+  id: 'lantern-idle-callback-short',
+  expectations,
+  config,
+};
