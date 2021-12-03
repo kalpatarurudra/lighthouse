@@ -5,6 +5,21 @@
  */
 'use strict';
 
+/** @type {LH.Config.Json} */
+const config = {
+  extends: 'lighthouse:default',
+  settings: {
+    formFactor: 'desktop',
+    screenEmulation: {
+      width: 1024,
+      height: 768,
+      deviceScaleFactor: 1,
+      mobile: false,
+      disabled: false,
+    },
+  },
+};
+
 const elements = {
   body: {
     top: 8,
@@ -59,4 +74,8 @@ const expectations = {
   },
 };
 
-export {expectations};
+export default {
+  id: 'screenshot',
+  expectations,
+  config,
+};
