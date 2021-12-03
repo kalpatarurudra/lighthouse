@@ -5,6 +5,19 @@
  */
 'use strict';
 
+/** @type {LH.Config.Json} */
+const config = {
+  extends: 'lighthouse:default',
+  settings: {
+    onlyCategories: [
+      'performance',
+    ],
+    onlyAudits: [
+      'legacy-javascript',
+    ],
+  },
+};
+
 /**
  * @type {Smokehouse.ExpectedRunnerResult}
  * Expected Lighthouse audit values for sites with polyfills.
@@ -92,4 +105,8 @@ const expectations = {
   },
 };
 
-export {expectations};
+export default {
+  id: 'legacy-javascript',
+  expectations,
+  config,
+};
