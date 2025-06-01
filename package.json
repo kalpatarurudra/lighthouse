@@ -213,7 +213,7 @@
     "third-party-web": "^0.12.4",
     "update-notifier": "^4.1.0",
     "ws": "^7.0.0",
-    "yargs": "^16.1.1",
+    "yargs": "^18.0.0",
     "yargs-parser": "^20.2.4"
   },
   "resolutions": {
